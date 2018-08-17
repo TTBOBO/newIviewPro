@@ -24,7 +24,8 @@ const router = new Router({
 const LOGIN_PAGE_NAME = 'login';
 router.beforeEach((to, from, next) => {
     const token = util.getLocalStorage('token')
-        // console.log(to, routes)
+
+    // console.log(to, routes)
     if (!token && to.name !== LOGIN_PAGE_NAME) {
         next();
         // 未登录且要跳转的页面不是登录页
@@ -40,7 +41,8 @@ router.beforeEach((to, from, next) => {
             name: 'home' // 跳转到home页
         })
     } else {
-        console.log(1111)
+        console.log(to)
+        console.log(JSON.parse(util.getLocalStorage('access')))
             // store.dispatch('getUserInfo').then(user => {
             //   // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
             //   if (canTurnTo(to.name, user.access, routes)) next() // 有权限，可访问

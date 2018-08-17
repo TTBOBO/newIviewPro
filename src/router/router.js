@@ -18,6 +18,24 @@ export default [{
     component: () =>
         import ('@/view/login/login.vue')
 }, {
+    path: '/*',
+    name: 'page404',
+    meta: {
+        title: '页面不存在',
+        hideInMenu: true
+    },
+    component: () =>
+        import ('@/view/error-page/404.vue')
+}, {
+    path: '/403',
+    name: 'page403',
+    meta: {
+        title: '您没有权限',
+        hideInMenu: true
+    },
+    component: () =>
+        import ('@/view/error-page/403.vue')
+}, {
     path: '/',
     name: '_home',
     redirect: '/home',
