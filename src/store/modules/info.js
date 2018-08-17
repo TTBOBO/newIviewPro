@@ -17,7 +17,7 @@ const pageInfo = {
     getters: {
         menuList: (state, getters) => {
             //1,2,3 => [1,2,3]
-            let access = util.getLocalStorage('access') ? JSON.parse(util.getLocalStorage('access')).split(",") : [1, 2];
+            let access = util.getLocalStorage('access') ? util.getLocalStorage('access').split(",") : [1, 2];
             return getMenuByRouter(routers, access);
         }
     },

@@ -29,8 +29,8 @@ export default {
   },
   methods: {
     goHome() {
-      this.$router.next({
-        path: "/Info"
+      this.$router.replace({
+        path: "/"
       });
     },
     goBack() {

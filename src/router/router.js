@@ -9,91 +9,93 @@ import parentView from '@/components/parent-view';
  * }
  */
 export default [{
-    path: '/login',
-    name: 'login',
-    meta: {
-        title: '用户登录',
-        hideInMenu: true
-    },
-    component: () =>
-        import ('@/view/login/login.vue')
-}, {
-    path: '/*',
-    name: 'page404',
-    meta: {
-        title: '页面不存在',
-        hideInMenu: true
-    },
-    component: () =>
-        import ('@/view/error-page/404.vue')
-}, {
-    path: '/403',
-    name: 'page403',
-    meta: {
-        title: '您没有权限',
-        hideInMenu: true
-    },
-    component: () =>
-        import ('@/view/error-page/403.vue')
-}, {
-    path: '/',
-    name: '_home',
-    redirect: '/home',
-    component: Main,
-    meta: {
-        hideInMenu: true,
-    },
-    children: [{
-        path: '/home',
-        name: 'home',
+        path: '/login',
+        name: 'login',
         meta: {
-            hideInMenu: false,
-            title: '首页',
+            title: '用户登录',
+            hideInMenu: true
         },
         component: () =>
-            import ('@/view/home/home')
-    }]
-}, {
-    path: '/test',
-    name: 'test',
-    meta: {
-        title: '测试',
-        //   href: 'https://lison16.github.io/iview-admin-doc/#/',
-        icon: 'ios-book'
-    },
-    component: Main,
-    children: [{
-        path: '/count_to_page',
-        name: 'count_to_page',
+            import ('@/view/login/login.vue')
+    }, {
+        path: '/403',
+        name: 'page403',
         meta: {
-            icon: 'md-trending-up',
-            title: '测试子级'
+            title: '您没有权限',
+            hideInMenu: true
         },
-        component: parentView,
+        component: () =>
+            import ('@/view/error-page/403.vue')
+    }, {
+        path: '/',
+        name: '_home',
+        redirect: '/home',
+        component: Main,
+        meta: {
+            hideInMenu: true,
+        },
         children: [{
-            path: 'level_2_2_1',
-            name: 'level_2_2_1',
+            path: '/home',
+            name: 'home',
             meta: {
-                icon: 'md-funnel',
-                title: '三级'
+                hideInMenu: false,
+                title: '首页',
             },
             component: () =>
-                import ('@/view/login/login')
+                import ('@/view/home/home')
         }]
-    }]
-}, {
-    path: '/test2',
-    name: 'test2',
-    component: Main,
-    children: [{
-        path: '/test2page',
-        name: 'QQ群子集',
+    }, {
+        path: '/test',
+        name: 'test',
         meta: {
-            icon: 'qq',
-            title: 'QQ群',
-            access: "4"
+            title: '测试',
+            //   href: 'https://lison16.github.io/iview-admin-doc/#/',
+            icon: 'ios-book'
+        },
+        component: Main,
+        children: [{
+            path: '/count_to_page',
+            name: 'count_to_page',
+            meta: {
+                icon: 'md-trending-up',
+                title: '测试子级'
+            },
+            component: parentView,
+            children: [{
+                path: 'level_2_2_1',
+                name: 'level_2_2_1',
+                meta: {
+                    icon: 'md-funnel',
+                    title: '三级'
+                },
+                component: () =>
+                    import ('@/view/login/login')
+            }]
+        }]
+    }, {
+        path: '/test2',
+        name: 'test2',
+        component: Main,
+        children: [{
+            path: '/test2page',
+            name: 'QQ群子集',
+            meta: {
+                icon: 'qq',
+                title: 'QQ群',
+                access: "4"
+            },
+            component: () =>
+                import ('@/view/test.vue')
+        }]
+    },
+    {
+        path: '*',
+        name: 'page404',
+        meta: {
+            title: '页面不存在',
+            hideInMenu: true
         },
         component: () =>
-            import ('@/view/test.vue')
-    }]
-}]
+            import ('@/view/error-page/404.vue')
+    }
+]
