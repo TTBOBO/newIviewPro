@@ -5,13 +5,13 @@
             <template v-for="(item,index) in menuList" >
                 <!-- {{item}} -->
                 <template  v-if="item.children && item.children.length === 1" >
-                    <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-                    <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`"><Icon :type="item.children[0].icon || ''"/><span>{{ item.children[0].name }}</span></menu-item>
+                    <side-menu-item v-if="showChildren(item)" :key="`menu-${item.meta.title}`" :parent-item="item"></side-menu-item>
+                    <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].meta.title}`"><Icon :type="item.children[0].icon || ''"/><span>{{ item.children[0].meta.title }}</span></menu-item>
                 </template>
                 <template v-else >
                     <div :key="index">
-                        <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-                        <menu-item v-else :name="getNameOrHref(item)" :key="`menu-${item.name}`"><Icon :type="item.icon || ''"/><span>{{ item.name }}</span></menu-item>
+                        <side-menu-item v-if="showChildren(item)" :key="`menu-${item.meta.title}`" :parent-item="item"></side-menu-item>
+                        <menu-item v-else :name="getNameOrHref(item)" :key="`menu-${item.meta.title}`"><Icon :type="item.icon || ''"/><span>{{ item.meta.title }}</span></menu-item>
                     </div>
                 </template>
             </template>
@@ -21,7 +21,6 @@
 
 <script>
 import mixin from './mixin.js';
-console.log(mixin)
 import SideMenuItem  from './side-menu-item'
 export default {
     mixins: [ mixin ],

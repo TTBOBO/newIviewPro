@@ -5,19 +5,33 @@
  */
 export const getMenuByRouter = (routers, access) => {
     let res = [];
+
     routers.forEach((item, index) => {
+
         if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
             let obj = {
                 icon: (item.meta && item.meta.icon) || '',
                 name: item.name,
                 meta: item.meta
             }
+            if (item.meta && item.meta.href) obj.href = item.meta.href;
             if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
                 obj.children = getMenuByRouter(item.children, access);
             }
+            // console.log(item)
+            // console.log(obj.children)
             // 如果是点击跳转外链的话 就是 外链
-            if (item.meta && item.meta.href) obj.href = item.meta.href;
-            if (showThisMenuEle(item, access)) res.push(obj);
+
+            if (showThisMenuEle(item, access)) {
+                //有子集且  有权限的 子集长度大于0时
+                if (hasChild(item) && obj.children.length > 0) {
+
+                    res.push(obj);
+                } else if (!hasChild(item)) {
+                    res.push(obj);
+                }
+
+            }
         }
     });
     return res;
@@ -37,10 +51,15 @@ export const hasChild = (item) => {
  * @param {*} access 
  */
 const showThisMenuEle = (item, access) => {
+    console.log(item.meta)
     if (item.meta && item.meta.access) {
-        if (hasOneOf(item.meta.access, access)) return true
-        else return false
-    } else return true
+        // console.log(item.meta.access, access)
+        if (hasOneOf(item.meta.access, access)) {
+            return true
+        } else return false
+    } else {
+        return true
+    }
 }
 
 /**

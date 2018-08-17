@@ -34,7 +34,7 @@ export default {
         },
         menuList () {
             console.log(this.$store.getters.menuList)
-        return this.$store.getters.menuList
+            return this.$store.getters.menuList
         },
     },
     methods: {
@@ -51,6 +51,9 @@ export default {
         collapsedSider() {
             this.$refs.side1.toggleCollapse();
         }
+    },
+    created(){
+        
     }
 };
 </script>
