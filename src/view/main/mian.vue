@@ -1,20 +1,7 @@
 <template>
     <Layout style="height: 100%">
-            <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed">
-                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-                    <MenuItem name="1-1">
-                        <Icon type="ios-navigate"></Icon>
-                        <span>Option 1</span>
-                    </MenuItem>
-                    <MenuItem name="1-2">
-                        <Icon type="search"></Icon>
-                        <span>Option 2</span>
-                    </MenuItem>
-                    <MenuItem name="1-3">
-                        <Icon type="settings"></Icon>
-                        <span>Option 3</span>
-                    </MenuItem>
-                </Menu>
+            <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" >
+                <sliderMenu :menuList="menuList" @on-select="handSelect"></sliderMenu>
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
@@ -28,25 +15,43 @@
 </template>
 
 <script>
+import sliderMenu from './components/sliderMenu'
 export default {
-  data() {
-    return {
-      isCollapsed: false
-    };
-  },
-  computed: {
-    rotateIcon() {
-      return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
+    data() {
+        return {
+        isCollapsed: false
+        };
     },
-    menuitemClasses() {
-      return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
+    components:{
+        sliderMenu
+    },
+    computed: {
+        rotateIcon() {
+        return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
+        },
+        menuitemClasses() {
+        return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
+        },
+        menuList () {
+            console.log(this.$store.getters.menuList)
+        return this.$store.getters.menuList
+        },
+    },
+    methods: {
+        handSelect(name){
+            if(name.indexOf("href_") != -1){
+                window.open(name.split("_")[1]);
+                return false;
+            }
+            this.$router.push({
+                name:name
+            })
+            
+        },
+        collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        }
     }
-  },
-  methods: {
-    collapsedSider() {
-      this.$refs.side1.toggleCollapse();
-    }
-  }
 };
 </script>
 

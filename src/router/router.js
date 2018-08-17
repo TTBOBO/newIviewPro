@@ -28,10 +28,45 @@ export default [{
         path: '/home',
         name: 'home',
         meta: {
-            hideInMenu: true,
+            hideInMenu: false,
             title: '首页',
         },
         component: () =>
             import ('@/view/home/home')
     }]
-}];
+}, {
+    path: 'test',
+    name: 'test',
+    meta: {
+        title: '测试',
+        //   href: 'https://lison16.github.io/iview-admin-doc/#/',
+        icon: 'ios-book'
+    },
+    component: Main,
+    children: [{
+        path: 'count_to_page',
+        name: 'count_to_page',
+        meta: {
+            icon: 'md-trending-up',
+            title: '测试子级'
+        },
+        component: () =>
+            import ('@/view/login/login')
+    }]
+}, {
+    path: '/test2',
+    name: 'test2',
+    component: Main,
+    access: "4",
+    children: [{
+        path: 'test2page',
+        name: 'QQ群',
+        meta: {
+            icon: 'qq',
+            title: 'QQ群',
+            access: "4"
+        },
+        component: () =>
+            import ('@/view/test.vue')
+    }]
+}]
