@@ -1,7 +1,7 @@
 <template>
     <Layout style="height: 100%">
             <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" >
-                <sliderMenu :menuList="menuList" @on-select="handSelect"></sliderMenu>
+                <sliderMenu :menuList="menuList" :active-name="$route.name" @on-select="handSelect"></sliderMenu>
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
@@ -33,7 +33,7 @@ export default {
         return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
         },
         menuList () {
-            console.log(this.$store.getters.menuList)
+            // console.log(this.$store.getters.menuList)
             return this.$store.getters.menuList
         },
     },
@@ -53,7 +53,6 @@ export default {
         }
     },
     created(){
-        
     }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <slot></slot>
-        <Menu ref="menu" v-show="!collapsed" :accordion="accordion" :theme="theme" :active-name="activeName" :open-names="openedNames" width="auto" @on-select="handleSelect">
+        <Menu ref="menu" v-show="!collapsed" accordion :theme="theme" :active-name="activeName" :open-names="openedNames" width="auto" @on-select="handleSelect">
             <template v-for="(item,index) in menuList" >
                 <!-- {{item}} -->
                 <template  v-if="item.children && item.children.length === 1" >
@@ -68,13 +68,33 @@ export default {
         handleSelect(name){
             //传给父组件值
             this.$emit('on-select', name)
+        },
+        getOpenedNamesByActiveName(name){
+            return this.$route.matched.map(item => item.name).filter(item => item !== name);
+        },
+        getUnion(arr1,arr2){
+            return Array.from(new Set([...arr1, ...arr2]))
         }
     },
     mounted(){
-
+        // ["test","count_to_page"] ||
+        this.openedNames = this.getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
+        console.log(this.openedNames)
     },
     components:{
         SideMenuItem
+    },
+    watch:{
+        activeName(name){
+            let res = this.$route.matched.map(item => item.name).filter(item => item != name)
+            // console.log(res)
+            this.openedNames = res;
+        },
+        openedNames () {
+            this.$nextTick(() => {
+                this.$refs.menu.updateOpened()
+            })
+        }
     }
 }
 </script>

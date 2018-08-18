@@ -1,4 +1,5 @@
 <template>
+
   <Submenu :name="`${parentName}`">
     <template slot="title">
       <Icon :type="parentItem.icon || ''"/>

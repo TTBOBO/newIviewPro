@@ -54,7 +54,7 @@ export default [{
         },
         component: Main,
         children: [{
-            path: '/count_to_page',
+            path: 'count_to_page',
             name: 'count_to_page',
             meta: {
                 icon: 'md-trending-up',
@@ -78,7 +78,7 @@ export default [{
         component: Main,
         children: [{
             path: '/test2page',
-            name: 'QQ群子集',
+            name: 'test2page',
             meta: {
                 icon: 'qq',
                 title: 'QQ群',

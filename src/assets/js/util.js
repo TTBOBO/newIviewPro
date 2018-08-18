@@ -1193,7 +1193,34 @@ let utils = {
         }
         // console.log((Day || 0) + "天" + (Hour < 10 ? '0' + Hour : Hour) + '时')
         return (Day || 0) + "天" + (Hour < 10 ? '0' + Hour : Hour) + '时';
-    }
+    },
+    /**
+	 * 
+	 * @param {*} routers   所有路由
+	 * @param {*} name      跳转路由的名称
+	 * @param {*} route     router
+	 * @param {*} next      跳转
+	 * 当name为 一级路由时   默认跳转到 第一个子路由
+	 */
+	toDefaultPage(routers, name, route, next) {
+		let len = routers.length;
+		let i = 0;
+		let notHandle = true;
+		while (i < len) {
+			if (routers[i].name === name && routers[i].children && routers[i].redirect === undefined) {
+				route.replace({
+					name: routers[i].children[0].name
+				});
+				notHandle = false;
+				next();
+				break;
+			}
+			i++;
+		}
+		if (notHandle) {
+			next();
+		}
+	},
 }
 
 export default utils
