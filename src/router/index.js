@@ -41,7 +41,6 @@ router.beforeEach((to, from, next) => {
             name: 'home' // 跳转到home页
         })
     } else {
-        console.log(to)
         if(to.meta.access !== undefined) {
 			//有权限时跳转到对应的页面 反之 跳转到403页面
 			if(util.getLocalStorage('access').split(',').indexOf(to.meta.access) != -1 || util.getLocalStorage('access') == "*") {

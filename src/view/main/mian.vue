@@ -1,7 +1,7 @@
 <template>
     <Layout style="height: 100%">
             <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" >
-                <sliderMenu :menuList="menuList" :active-name="$route.name" @on-select="handSelect"></sliderMenu>
+                <sliderMenu :menuList="menuList" :collapsed="isCollapsed" :active-name="$route.name" @on-select="handSelect"></sliderMenu>
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
@@ -15,7 +15,10 @@
 </template>
 
 <script>
-import sliderMenu from './components/sliderMenu'
+import sliderMenu from './components/sliderMenu';
+import('./components/sliderMenu').then(res => {
+    console.log(res)
+})
 export default {
     data() {
         return {
@@ -53,6 +56,7 @@ export default {
         }
     },
     created(){
+        console.log(this.menuList)
     }
 };
 </script>
@@ -106,5 +110,9 @@ export default {
   transition: font-size 0.2s ease 0.2s, transform 0.2s ease 0.2s;
   vertical-align: middle;
   font-size: 22px;
+}
+.ivu-layout-sider-collapsed .ivu-menu span{
+    width: 0;
+    transition: width .2s ease;
 }
 </style>
