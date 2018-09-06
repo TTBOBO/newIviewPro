@@ -19,7 +19,7 @@
         <div  v-show="collapsed">
            <template v-for="item in menuList">
             <shrink-menu v-if="item.children && item.children.length > 1" @on-click="handleSelect" hide-title   :theme="theme" :parent-item="item" :key="`drop-menu-${item.name}`"></shrink-menu>
-            <Tooltip transfer v-else :content="(item.meta && item.meta.title) || (item.children && item.children[0] && item.children[0].meta.title)" placement="right" :key="`drop-menu-${item.name}`" theme="light" >
+            <Tooltip transfer v-else :content="(item.meta && item.meta.title) || (item.children && item.children[0] && item.children[0].meta.title)" placement="right" :key="`drop-menu-${item.name}`" :theme="light" >
                 <a @click="handleSelect(getNameOrHref(item, true))" class="drop-menu-a" :style="{textAlign: 'center'}"><Icon  :color="textColor" :type="item.icon || (item.children && item.children[0].icon)"/></a>
             </Tooltip>
         </template>
@@ -28,97 +28,109 @@
 </template>
 
 <script>
-import mixin from './mixin.js';
-import SideMenuItem  from './side-menu-item';
-import shrinkMenu from './shrinkMenu'
+import mixin from "./mixin.js";
+import SideMenuItem from "./side-menu-item";
+import shrinkMenu from "./shrinkMenu";
 export default {
-    mixins: [ mixin ],
-    data(){
-        return{
-            openedNames: []
-        }
+  mixins: [mixin],
+  data() {
+    return {
+      openedNames: [],
+      light: "light"
+    };
+  },
+  props: {
+    menuList: {
+      type: Array,
+      default() {
+        return [];
+      }
     },
-    props:{
-        menuList: {
-            type: Array,
-            default () {
-                return []
-            }
-        },
-        theme: {
-            type: String,
-            default: 'dark'
-        },
-        collapsed: {
-            type: Boolean,
-            default:function(){
-                return false
-            }
-        },
-        accordion:{
-            type: Boolean,
-            default:function(){
-                return true
-            }
-        },
-        activeName: {
-            type: String,
-            default: ''
-        },
-        openNames: {
-            type: Array,
-            default: () => []
-        }
+    theme: {
+      type: String,
+      default: "dark"
     },
-    computed:{
-
+    collapsed: {
+      type: Boolean,
+      default: function() {
+        return false;
+      }
     },
-    methods:{
-        handleSelect(name){
-            //传给父组件值
-            this.$emit('on-select', name)
-        },
-        getOpenedNamesByActiveName(name){
-            return this.$route.matched.map(item => item.name).filter(item => item !== name);
-        },
-        getUnion(arr1,arr2){
-            return Array.from(new Set([...arr1, ...arr2]))
-        }
+    accordion: {
+      type: Boolean,
+      default: function() {
+        return true;
+      }
     },
-    mounted(){
-        // ["test","count_to_page"] ||
-        this.openedNames = this.getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
-        console.log(this.openedNames)
+    activeName: {
+      type: String,
+      default: ""
     },
-    components:{
-        SideMenuItem,
-        shrinkMenu
-    },
-    watch:{
-        activeName(name){
-            let res = this.$route.matched.map(item => item.name).filter(item => item != name)
-            // console.log(res)
-            this.openedNames = res;
-        },
-        openedNames () {
-            this.$nextTick(() => {
-                this.$refs.menu.updateOpened()
-            })
-        },
-        collapsed(now){
-            console.log(now)
-        }
+    openNames: {
+      type: Array,
+      default: () => []
     }
-}
+  },
+  computed: {},
+  methods: {
+    handleSelect(name) {
+      console.log(name);
+      //传给父组件值
+      this.$emit("on-select", name);
+    },
+    getOpenedNamesByActiveName(name) {
+      return this.$route.matched
+        .map(item => item.name)
+        .filter(item => item !== name);
+    },
+    getUnion(arr1, arr2) {
+      return Array.from(new Set([...arr1, ...arr2]));
+    }
+  },
+  mounted() {
+    // ["test","count_to_page"] ||
+    this.openedNames = this.getUnion(
+      this.openedNames,
+      this.getOpenedNamesByActiveName(name)
+    );
+    console.log(this.openedNames);
+
+    
+  },
+  components: {
+    SideMenuItem,
+    shrinkMenu
+  },
+  watch: {
+    activeName(name) {
+      let res = this.$route.matched
+        .map(item => item.name)
+        .filter(item => item != name);
+      // console.log(res)
+      this.openedNames = res;
+    },
+    openedNames() {
+      this.$nextTick(() => {
+        this.$refs.menu.updateOpened();
+      });
+    },
+    collapsed(now) {
+      console.log(now);
+    }
+  }
+};
 </script>
 
 <style>
-.drop-menu-a{
-        display: inline-block;
-    width: 64px;
-    height: 50px;
-    text-align: center;
-    /* color: #495060; */
-    line-height: 50px;
+.drop-menu-a {
+  display: inline-block;
+  width: 64px;
+  height: 50px;
+  text-align: center;
+  /* color: #495060; */
+  line-height: 50px;
+}
+.ivu-tooltip-inner {
+  cursor: pointer;
 }
 </style>

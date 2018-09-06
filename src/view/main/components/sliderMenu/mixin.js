@@ -20,6 +20,7 @@ export default {
     },
     methods: {
         showChildren(item) {
+            console.log(item.children && (item.children.length > 1 || item.meta))
             return item.children && (item.children.length > 1 || item.meta)
         },
         getNameOrHref(item, children0) {

@@ -5,7 +5,7 @@
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
-                    <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0px 20px 0'}" type="navicon-round" size="24"></Icon>
+                    <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0px 20px 0'}" type="md-menu" size="24"></Icon>
                 </Header>
                 <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
                      <router-view/>
@@ -30,7 +30,7 @@ export default {
     },
     computed: {
         rotateIcon() {
-        return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
+            return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
         },
         menuitemClasses() {
         return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
@@ -82,6 +82,7 @@ export default {
 }
 .menu-icon {
   transition: all 0.3s;
+  cursor: pointer;
 }
 .rotate-icon {
   transform: rotate(-90deg);

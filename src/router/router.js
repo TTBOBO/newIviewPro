@@ -50,14 +50,14 @@ export default [{
         meta: {
             title: '测试',
             //   href: 'https://lison16.github.io/iview-admin-doc/#/',
-            icon: 'ios-book'
+            icon: 'ios-analytics'
         },
         component: Main,
         children: [{
             path: 'count_to_page',
             name: 'count_to_page',
             meta: {
-                icon: 'md-trending-up',
+                icon: 'ios-add',
                 title: '测试子级'
             },
             component: parentView,
@@ -66,11 +66,19 @@ export default [{
                 name: 'level_2_2_1',
                 meta: {
                     icon: 'md-funnel',
-                    title: '三级'
+                    title: '三级11111'
                 },
                 component: () =>
                     import ('@/view/login/login')
             }]
+        },{
+            path: 'count_to_page1',
+            name: 'count_to_page1',
+            meta: {
+                icon: 'ios-add',
+                title: '测试子级111'
+            },
+            component: parentView
         }]
     }, {
         path: '/test2',
@@ -80,9 +88,9 @@ export default [{
             path: '/test2page',
             name: 'test2page',
             meta: {
-                icon: 'qq',
+                icon: 'ios-albums-outline',
                 title: 'QQ群',
-                access: "4"
+                // access: "4"
             },
             component: () =>
                 import ('@/view/test.vue')
