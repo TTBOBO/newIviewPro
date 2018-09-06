@@ -1,7 +1,6 @@
 <template>
   <div class="menu">
       <Dropdown @on-click="handleClick" transfer :placement="placement" >
-        <!-- :style="{textAlign: !hideTitle ? 'left' : ''}" -->
         <a class="drop-menu-a" type="text" @mouseover="handleMousemove($event, children)" :style="{textAlign: !hideTitle ? 'left' : ''}"><Icon :size="rootIconSize" :color="textColor" :type="parentItem.icon"/><span class="menu-title" v-if="!hideTitle">{{ parentItem.meta.title }}</span><Icon style="float: right;" v-if="!hideTitle" type="ios-arrow-forward" :size="16"/></a>
         <DropdownMenu slot="list">
         <template v-for="child in children">

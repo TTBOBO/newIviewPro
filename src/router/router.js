@@ -68,8 +68,7 @@ export default [{
                     icon: 'md-funnel',
                     title: '三级11111'
                 },
-                component: () =>
-                    import ('@/view/login/login')
+                component: () => import ('@/view/login/login')
             }]
         },{
             path: 'count_to_page1',
