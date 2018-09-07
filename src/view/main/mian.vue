@@ -1,7 +1,7 @@
 <template>
     <Layout style="height: 100%">
             <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" >
-                <div class="logo">
+                <div class="logo" @click="goHome">
                     <img v-if="!isCollapsed" :src="!isCollapsed ? require('../../assets/img/logo.png') : require('../../assets/img/logo1.png')" style="width: 100%;"/>
                     <span v-else>HM</span>
                 </div>
@@ -20,7 +20,7 @@
                         </Dropdown>
                     </div>
                 </Header>
-                <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
+                <Content :style="{margin: '20px',marginRight:'0', background: '#fff', minHeight: '260px'}">
                      <router-view/>
                 </Content>
             </Layout>
@@ -31,7 +31,7 @@
 import sliderMenu from './components/sliderMenu';
 import {mapMutations} from 'vuex'
 import('./components/sliderMenu').then(res => {
-    console.log(res)
+    // console.log(res)
 })
 export default {
     data() {
@@ -50,7 +50,6 @@ export default {
         return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
         },
         menuList () {
-            // console.log(this.$store.getters.menuList)
             return this.$store.getters.menuList
         },
     },
@@ -58,15 +57,20 @@ export default {
         ...mapMutations([
             "LOGINOUT"
         ]),
+        goHome(){
+            this.$router.push({
+                    path:"/home"
+            })
+        },
         //下拉菜单
         dropClick(name){
             if(name == 'loginOut'){
-                this.LOGINOUT(1233);
+                this.LOGINOUT();
+                this.$router.replace({
+                    path:"login"
+                })
             }
-            this.$router.replace({
-                path:"login"
-            })
-            console.log(name)
+           
         },
         handSelect(name){
             if(name.indexOf("href_") != -1){
@@ -83,7 +87,7 @@ export default {
         }
     },
     created(){
-        console.log(this.menuList)
+        // console.log(this.menuList)
     }
 };
 </script>
@@ -96,6 +100,7 @@ export default {
     color: #fff;
     text-align: center;
     line-height: 64px;
+    cursor: pointer;
     /* background: red; */
 }
 .user-con{

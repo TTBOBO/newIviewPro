@@ -12,7 +12,6 @@ export default {
         return this.parentItem.name
       },
       children () {
-          console.log(this.parentItem.children)
         return this.parentItem.children
       },
       textColor () {

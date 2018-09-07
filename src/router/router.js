@@ -44,38 +44,43 @@ export default [{
             component: () =>
                 import ('@/view/home/home')
         }]
+    },{
+        path: '/user',
+        name: 'user',
+        
+        component: Main,
+        children: [{
+            path: 'usermanag',
+            name: 'usermanag',
+            meta: {
+                icon: 'md-contacts',
+                title: '用户管理'
+            },
+            component: parentView
+        }]
     }, {
         path: '/test',
         name: 'test',
         meta: {
-            title: '测试',
+            title: '数据管理',
             //   href: 'https://lison16.github.io/iview-admin-doc/#/',
-            icon: 'ios-analytics'
+            icon: 'ios-pulse'
         },
         component: Main,
         children: [{
-            path: 'count_to_page',
-            name: 'count_to_page',
+            path: 'userMonitor',
+            name: 'userMonitor',
             meta: {
-                icon: 'ios-add',
-                title: '测试子级'
+                icon: 'md-people',
+                title: '用户监测'
             },
-            component: parentView,
-            children: [{
-                path: 'level_2_2_1',
-                name: 'level_2_2_1',
-                meta: {
-                    icon: 'md-funnel',
-                    title: '三级11111'
-                },
-                component: () => import ('@/view/login/login')
-            }]
+            component: parentView
         },{
-            path: 'count_to_page1',
-            name: 'count_to_page1',
+            path: 'accessMonitor',
+            name: 'accessMonitor',
             meta: {
-                icon: 'ios-add',
-                title: '测试子级111'
+                icon: 'ios-podium',
+                title: '访问监测'
             },
             component: parentView
         }]
@@ -83,13 +88,51 @@ export default [{
         path: '/test2',
         name: 'test2',
         component: Main,
+        meta: {
+            icon: 'md-settings',
+            title: '系统设置',
+            // access: "4"
+        },
         children: [{
-            path: '/test2page',
-            name: 'test2page',
+            path: '/jurisdiction',
+            name: 'jurisdiction',
             meta: {
-                icon: 'ios-albums-outline',
-                title: 'QQ群',
-                access: "4"
+                icon: 'md-git-branch',
+                title: '权限管理',
+                // access: "4"
+            },
+            component: () =>
+                import ('@/view/test.vue')
+        },
+        {
+            path: '/role',
+            name: 'role',
+            meta: {
+                icon: 'md-list-box',
+                title: '角色管理',
+                // access: "4"
+            },
+            component: () =>
+                import ('@/view/test.vue')
+        },
+        {
+            path: '/pwd',
+            name: 'pwd',
+            meta: {
+                icon: 'ios-notifications-off',
+                title: '密码管理',
+                // access: "4"
+            },
+            component: () =>
+                import ('@/view/test.vue')
+        },
+        {
+            path: '/message',
+            name: 'message',
+            meta: {
+                icon: 'ios-chatboxes',
+                title: '消息反馈',
+                // access: "4"
             },
             component: () =>
                 import ('@/view/test.vue')

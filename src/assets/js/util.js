@@ -1220,6 +1220,14 @@ let utils = {
 		if (notHandle) {
 			next();
 		}
+    },
+    chartResize:function(fun) {
+		window.addEventListener("resize", function () {
+			if(typeof(fun) == 'function') {
+				window.onresize = fun.resize()
+			}
+			window.onresize = fun.resize();
+		});
 	},
 }
 

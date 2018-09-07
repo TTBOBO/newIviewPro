@@ -26,7 +26,7 @@
 			</transition>
 		</div>
 		<div class="bg" >
-				<img src="https://raw.githubusercontent.com/TTT822520/hm-iview-admin/master/src/assets/img/bg.jpg"  style="height: 100%;"/>
+				<img src="https://raw.githubusercontent.com/TTT822520/hm-iview-admin/master/src/assets/img/bg.jpg"  style="height: 100%; width:100%"/>
 		</div>
 	</div>
 </template>
@@ -173,7 +173,7 @@
 		bottom: 0px;
 		width: 100%;
 		/*background: url(../../assets/img/bg.jpg) no-repeat;*/
-		background-size: cover;
+		height: 100%;
 		filter: blur(2px);
 		z-index: 1;
 	}

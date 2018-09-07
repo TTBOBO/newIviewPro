@@ -1,7 +1,7 @@
 import axios from 'axios';
 import env from '../../config/dev.env';
 import request from './api';
-import otherurl from './otherurl';
+import otherurl from './baseUrl';
 import util from '../assets/js/util'
 
 axios.defaults.timeout = 5000;
@@ -31,7 +31,6 @@ axios.interceptors.response.use(
             // Vue.$Message.error('操作失败')
             return response.data;
         } else if (response.data.code == 501) {
-            console.log(1111)
             util.clearLocalStorage();
             var u = navigator.userAgent;
             var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
