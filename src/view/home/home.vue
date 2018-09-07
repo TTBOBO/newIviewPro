@@ -21,6 +21,13 @@
             </div>
              <div id="canvas" style="height:500px;" ></div>
          </div>
+         <div class="home-b">
+            <div style="margin-bottom:20px;">
+                <DatePicker v-model="dateTime" type="month" placeholder="请选择年月搜索..." style="width: 200px"></DatePicker>
+                <Button type="primary" @click="search()">查询</Button>
+            </div>
+             <div id="canvasbar" style="height:500px;" ></div>
+         </div>
          
     </div>
 </template>
@@ -97,7 +104,43 @@ export default {
                 }],
                 
             };
-            var canvas = echarts.init(document.getElementById('canvas'));
+            this.serOption("canvas",option);
+        },
+        initbar(){
+            var option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [120, 200, 150, 80, 70, 110, 130],
+                    type: 'bar',
+                    barWidth: 20,
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: 2,
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#fff'
+                            }, {
+                                offset: 1,
+                                color: '#3f6bdc'
+                            }]),
+                            // shadowColor: 'rgba(0, 0, 0, 0.4)',
+                            // shadowBlur: 20
+                        }
+                    }
+                }
+                ]
+            };
+            this.serOption("canvasbar",option);
+            
+        },
+        serOption(name,option){
+            var canvas = echarts.init(document.getElementById(name));
             canvas.setOption(option);
             util.chartResize(canvas);
         }
@@ -105,6 +148,7 @@ export default {
     mounted(){
         this.$nextTick(() =>{
             this.initLine();
+            this.initbar();
         })
     }
 }
@@ -113,6 +157,7 @@ export default {
 <style scoped>
 .home{
     padding: 20px;
+    background: #fff;
 }
 .home-b{
     margin-top: 50px;
