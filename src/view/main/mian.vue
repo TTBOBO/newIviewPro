@@ -29,6 +29,7 @@
 
 <script>
 import sliderMenu from './components/sliderMenu';
+import {mapMutations} from 'vuex'
 import('./components/sliderMenu').then(res => {
     console.log(res)
 })
@@ -54,9 +55,17 @@ export default {
         },
     },
     methods: {
+        ...mapMutations([
+            "LOGINOUT"
+        ]),
         //下拉菜单
         dropClick(name){
-            
+            if(name == 'loginOut'){
+                this.LOGINOUT(1233);
+            }
+            this.$router.replace({
+                path:"login"
+            })
             console.log(name)
         },
         handSelect(name){

@@ -16,7 +16,9 @@ export const infoMutations = {
         state.confirm = false;
     },
     //退出登录
-    [type.LOGINOUT](state){
+    [type.LOGINOUT](state,params){
+        console.log(params);
+        util.clearLocalStorage();
         //执行 退出登录 操作
     }
 
