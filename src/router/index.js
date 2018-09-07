@@ -23,8 +23,7 @@ const router = new Router({
 
 const LOGIN_PAGE_NAME = 'login';
 router.beforeEach((to, from, next) => {
-    const token = util.getLocalStorage('token')
-    console.log(to)
+    const token = util.getLocalStorage('token');
     // console.log(to, routes)
     if (token && to.name !== LOGIN_PAGE_NAME) {
         next();
@@ -39,6 +38,10 @@ router.beforeEach((to, from, next) => {
         // 已登录且要跳转的页面是登录页
         next({
             name: 'home' // 跳转到home页
+        })
+    }else if(!token && to.name !== LOGIN_PAGE_NAME){
+        next({
+            name: 'login' // 跳转到登录页页
         })
     } else {
         if(to.meta.access !== undefined) {

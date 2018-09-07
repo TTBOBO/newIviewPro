@@ -1,5 +1,5 @@
 import * as type from '../constant/type';
-
+import util from '../../assets/js/util';
 
 
 export const infoMutations = {
@@ -14,6 +14,10 @@ export const infoMutations = {
     },
     [type.HIDCONFIRM](state) {
         state.confirm = false;
+    },
+    //退出登录
+    [type.LOGINOUT](state){
+        //执行 退出登录 操作
     }
 
 

@@ -21,7 +21,7 @@ export default [{
         path: '/403',
         name: 'page403',
         meta: {
-            title: '您没有权限',
+            title: '没有权限',
             hideInMenu: true
         },
         component: () =>
@@ -89,7 +89,7 @@ export default [{
             meta: {
                 icon: 'ios-albums-outline',
                 title: 'QQ群',
-                // access: "4"
+                access: "4"
             },
             component: () =>
                 import ('@/view/test.vue')

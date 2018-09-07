@@ -36,7 +36,8 @@ export default {
   data() {
     return {
       openedNames: [],
-      light: "light"
+      light: "light",
+      
     };
   },
   props: {

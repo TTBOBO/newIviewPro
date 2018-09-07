@@ -1,11 +1,24 @@
 <template>
     <Layout style="height: 100%">
             <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" >
+                <div class="logo">
+                    <img v-if="!isCollapsed" :src="!isCollapsed ? require('../../assets/img/logo.png') : require('../../assets/img/logo1.png')" style="width: 100%;"/>
+                    <span v-else>HM</span>
+                </div>
                 <sliderMenu :menuList="menuList" :collapsed="isCollapsed" :active-name="$route.name" @on-select="handSelect"></sliderMenu>
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
                     <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0px 20px 0'}" type="md-menu" size="24"></Icon>
+                    <div class="user-con">
+                         <Dropdown @on-click="dropClick">
+                            <img src="../../assets/logo.png" class="auth-pic"/>
+                            <DropdownMenu slot="list">
+                                <DropdownItem name="userinfo">个人中心</DropdownItem>
+                                <DropdownItem name="loginOut">退出登录</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </Header>
                 <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
                      <router-view/>
@@ -41,6 +54,11 @@ export default {
         },
     },
     methods: {
+        //下拉菜单
+        dropClick(name){
+            
+            console.log(name)
+        },
         handSelect(name){
             if(name.indexOf("href_") != -1){
                 window.open(name.split("_")[1]);
@@ -62,6 +80,26 @@ export default {
 </script>
 
 <style scoped>
+.logo{
+    width: 100%;
+    height: 64px;
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    line-height: 64px;
+    /* background: red; */
+}
+.user-con{
+    height: 64px;
+    margin-right: 20px;
+}
+.user-con .ivu-dropdown{
+    height: 64px;
+}
+.ivu-dropdown-rel{
+    height: 100% !important;
+    
+}
 .layout {
   border: 1px solid #d7dde4;
   background: #f5f7f9;
@@ -69,7 +107,18 @@ export default {
   border-radius: 4px;
   overflow: hidden;
 }
+.auth-pic{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 10px;
+    
+}
 .layout-header-bar {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
