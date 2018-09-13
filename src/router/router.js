@@ -56,7 +56,8 @@ export default [{
                 icon: 'md-contacts',
                 title: '用户管理'
             },
-            component: parentView
+            component: () =>
+            import ('@/view/home/home')
         }]
     }, {
         path: '/test',
@@ -110,6 +111,17 @@ export default [{
             meta: {
                 icon: 'md-list-box',
                 title: '角色管理',
+                // access: "4"
+            },
+            component: () =>
+                import ('@/view/test.vue')
+        },
+        {
+            path: '/rolegroup',
+            name: 'rolegroup',
+            meta: {
+                icon: 'ios-people',
+                title: '角色组管理',
                 // access: "4"
             },
             component: () =>

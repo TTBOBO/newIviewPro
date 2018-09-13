@@ -28,13 +28,18 @@
             </div>
              <div id="canvasbar" style="height:500px;" ></div>
          </div>
-         
+         <canvasCir v-model="value" :data="data"></canvasCir>
+         <ButtonGroup size="large">
+            <Button icon="ios-add" @click="add"></Button>
+            <Button icon="ios-remove" @click="minus"></Button>
+        </ButtonGroup>
     </div>
 </template>
 
 <script>
 import echarts from "echarts";
-import util from '../../assets//js/util'
+import util from '../../assets//js/util';
+import canvasCir from '../../components/userMonitor'
 export default {
     data(){
         return {
@@ -44,7 +49,14 @@ export default {
                 {icon:'md-pricetag',title:'待处理',num:'222',bgcolor:'#19be6b',color:'#fff',type:'条'},
                 {icon:'ios-apps',title:'文章数',num:'444',bgcolor:'#ed3f14',color:'#fff',type:'条'}
             ],
-            dateTime:''
+            dateTime:'',
+            value:10,
+            data:{
+                size:"60",
+                speed:1,
+                color:"#05a6da",
+                text:"bobo"
+            }
         }
     },
     methods:{
@@ -115,6 +127,13 @@ export default {
                 yAxis: {
                     type: 'value'
                 },
+                tooltip: {
+                    show: true,
+                    // trigger: 'axis',  
+                    // axisPointer: {
+                    //     // type: 'line'
+                    // }
+                },
                 series: [{
                     data: [120, 200, 150, 80, 70, 110, 130],
                     type: 'bar',
@@ -137,19 +156,36 @@ export default {
                 ]
             };
             this.serOption("canvasbar",option);
+
             
         },
         serOption(name,option){
             var canvas = echarts.init(document.getElementById(name));
             canvas.setOption(option);
             util.chartResize(canvas);
+            canvas.on('click', function (param) {
+                console.log(param);
+            });
+        },
+        add(){
+            this.value += 5;
+        },
+        minus(){
+            
+            this.value -= 5;
         }
+    },
+    components:{
+        canvasCir
     },
     mounted(){
         this.$nextTick(() =>{
-            this.initLine();
-            this.initbar();
+            this.initLine();  //初始化折线图
+            this.initbar();   //初始化柱状图
         })
+        setTimeout(() => {
+            // this.value = 20
+        },2000)
     }
 }
 </script>

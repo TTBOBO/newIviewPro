@@ -1,7 +1,7 @@
 <template>
     <div>
         <slot></slot>
-        <Menu ref="menu" v-show="!collapsed" accordion :theme="theme" :active-name="activeName" :open-names="openedNames" width="auto" @on-select="handleSelect">
+        <Menu ref="menu" v-show="!collapsed"  accordion :theme="theme" :active-name="activeName" :open-names="openedNames" width="auto" @on-select="handleSelect">
             <template v-for="(item,index) in menuList" >
                 <!-- {{item}} -->
                 <template  v-if="item.children && item.children.length === 1" >
