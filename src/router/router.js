@@ -134,6 +134,11 @@ export default [{
         path: '/order',
         name: 'order',
         component: Main,
+        meta: {
+            title: '数据管理',
+            //   href: 'https://lison16.github.io/iview-admin-doc/#/',
+            icon: 'ios-pulse'
+        },
         children: [{
             path: 'order',
             name: 'order',
@@ -143,6 +148,14 @@ export default [{
                 icon: 'ios-pulse'
             },
             component: resolve => { require(['@/view/order/order'], resolve) }
+        },{
+            path: 'particle',
+            name: 'particle',
+            meta: {
+                icon: 'ios-podium',
+                title: '粒子Demo'
+            },
+            component: resolve => { require(['@/components/particle.vue'], resolve) } 
         }]
     }, {
         path: '/test2',
@@ -172,6 +185,17 @@ export default [{
                 // access: "4"
             },
             component:  resolve => { require(['@/view/admin/admin'], resolve) }
+        },
+        {
+            path: '/rolegroup',
+            name: 'rolegroup',
+            meta: {
+                icon: 'ios-people',
+                title: '角色组管理',
+                // access: "4"
+            },
+            component: () =>
+                import ('@/view/test.vue')
         },
         {
             path: '/pwd',

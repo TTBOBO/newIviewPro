@@ -1,3 +1,4 @@
+
 <template>
     <Layout class="layout" style="height: 100%">
             <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" >
@@ -21,6 +22,8 @@
                     </div>
                 </Header>
                 <Content style="overflow-y: scroll;" :style="{margin: '20px',marginRight:'0',padding:'20px', background: '#fff', minHeight: '260px'}">
+
+                <!-- <Content :style="{margin: '20px',marginRight:'0', background: '#fff', minHeight: '260px'}" style="overflow-y:scroll"> -->
                      <router-view/>
                 </Content>
             </Layout>
