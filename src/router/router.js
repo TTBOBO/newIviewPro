@@ -84,6 +84,14 @@ export default [{
                 title: '访问监测'
             },
             component: parentView
+        },{
+            path: 'particle',
+            name: 'particle',
+            meta: {
+                icon: 'ios-podium',
+                title: '粒子Demo'
+            },
+            component: resolve => { require(['@/components/particle'], resolve) } 
         }]
     }, {
         path: '/test2',
