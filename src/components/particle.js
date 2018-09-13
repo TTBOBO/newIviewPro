@@ -9,7 +9,7 @@ class DrawParticle{
         this.canvas.width = this.width;
         this.canvas.height = this.height;
 
-
+        this.timer = null;
 
         this.mouseX = -1;
         this.mouseY = -1;
@@ -21,8 +21,8 @@ class DrawParticle{
     }
 
     initSCreen(){
-        console.log(this.obj)
-        let num = this.obj.number || 200;
+        // console.log(this.obj)
+        let num = this.obj.number || 300;
         for(var i = 0; i < num; i++){
             this.ponitArr.push(this.creatPoint())
         }
@@ -34,7 +34,7 @@ class DrawParticle{
         this.ctx.fillRect(0,0,this.width,this.height);
         this.drawCanvas(this.ctx);
         //修改鼠标
-        this.canvas.addEventListener('mouseover',(e) => {
+        this.canvas.addEventListener('mousemove',(e) => {
             e = e || event;
             this.mouseX = e.offsetX;
             this.mouseY = e.offsetY;
@@ -45,27 +45,67 @@ class DrawParticle{
         ctx.clearRect(0,0,this.width,this.height);
         this.ponitArr.forEach((item,index) => {
             ctx.beginPath();
-            item.x += this.xsKew;
-            item.y += this.ysKew;
+            item.x += item.xsKew;
+            item.y += item.ysKew;
              //处理边缘碰撞
-            //  if (item.x <= item.r || item.x >= this.width - item.r) {
-            //     this.xsKew = -this.xsKew;
-            //     item.x = item.x + this.xsKew;
-            // }
-            // if (item.y <= item.r || item.y >= this.height - item.r) {
-            //     item.ysKew = -item.ysKew;
-            //     item.y = item.y + item.ysKew;
-            // }
-            console.log(item.x,item.y,item.r)
+             if (item.x <= item.r || item.x >= this.width - item.r) {
+                this.xsKew = -item.xsKew;
+                item.x = item.x + item.xsKew;
+            }
+            if (item.y <= item.r || item.y >= this.height - item.r) {
+                item.ysKew = -item.ysKew;
+                item.y = item.y + item.ysKew;
+            }
+            
+
             ctx.arc(item.x,item.y,item.r,0,2 * Math.PI);
 
             ctx.fill();
+
+            
+            this.ponitArr.forEach( (_item,_index) => {
+                if(index != _index){
+                    this.drawLine(ctx, _item.x, _item.y, item.x, item.y);
+                }
+                // this.drawLine(ctx, item.x, item.y, _item.x, _item.y);
+            })
+
+            if (this.mouseX > 0 && this.mouseY > 0) {
+                this.drawLine(ctx, this.mouseX, this.mouseY, item.x, item.y);
+            }
+
         })
+
+        if (window.requestAnimationFrame) this.timer = window.requestAnimationFrame(this.drawCanvas.bind(this, ctx));
+            else if (window.msRequestAnimationFrame) this.timer = window.msRequestAnimationFrame(this.drawCanvas.bind(this, ctx));
+            else if (window.mozRequestAnimationFrame) this.timer = window.mozRequestAnimationFrame(this.drawCanvas.bind(this, ctx));
+            else if (window.webkitRequestAnimationFrame) this.timer = window.webkitRequestAnimationFrame(this.drawCanvas.bind(this, ctx));
+    }
+
+    drawLine(ctx, p1x, p1y, p2x, p2y) {
+        var xDistance = Math.abs(p1x - p2x);//计算两点间的x距离
+        var yDistance = Math.abs(p1y - p2y);//计算两点间的y距离
+        var distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+        //随机颜色
+        var r=Math.floor(Math.random()*256);
+        var g=Math.floor(Math.random()*256);
+        var b=Math.floor(Math.random()*256);
+        
+        if (distance <= 120) {
+            ctx.fillStyle = "rgb("+r+','+g+','+b+")";//解决窗口缩放时圆点变黑
+            ctx.strokeStyle = 'rgba(255,255,255,' + (1 - distance / 120) + ')';
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(p1x, p1y);
+            ctx.lineTo(p2x, p2y);
+            ctx.stroke();
+            ctx.restore();
+        }
     }
 
     creatPoint(){
-        let xsKew = (Math.random() - 0.5) * this.zoom;  //偏移量
-        let ysKew = (Math.random() - 0.5) * this.zoom;
+        let xsKew = (Math.random() - 0.7) * this.zoom*2;  //偏移量
+        let ysKew = (Math.random() - 0.7) * this.zoom*2;
 
         let r = ~~(Math.random() * 5 * this.zoom);
         let x = ~~(Math.random() * (this.width - r)) + 2 * r;  //x轴位置

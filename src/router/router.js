@@ -129,6 +129,14 @@ export default [{
                 title: '访问监测'
             },
             component: resolve => { require(['@/view/home/home'], resolve) }
+        },{
+            path: 'particle',
+            name: 'particle',
+            meta: {
+                icon: 'ios-podium',
+                title: '例子Demo'
+            },
+            component: resolve => { require(['@/components/particle.vue'], resolve) }
         }]
     }, {
         path: '/order',
