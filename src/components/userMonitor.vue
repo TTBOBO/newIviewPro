@@ -24,19 +24,7 @@ export default {
             default: function*() {
                 return 60;
             }
-        },
-        // width: {
-        //     type: Number,
-        //     default: function*() {
-        //         return 150;
-        //     }
-        // },
-        // height: {
-        //     type: Number,
-        //     default: function*() {
-        //         return 150;
-        //     }
-        // },
+        }
     },
     methods: {},
     mounted() {

@@ -91,7 +91,7 @@ export default [{
                 icon: 'ios-podium',
                 title: '粒子Demo'
             },
-            component: resolve => { require(['@/components/particle'], resolve) } 
+            component: resolve => { require(['@/components/particle.vue'], resolve) } 
         }]
     }, {
         path: '/test2',
