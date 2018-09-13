@@ -1,30 +1,14 @@
 const REQUEST = {
-    productIndx: "/api/open/index", //产品首页
-    productDetail: "api/open/productDetail", //产品详情
-    addressList: 'api/userAddrs', //地址列表
-    addAddress: 'api/addr/add', //添加地址
-    updateaddr: 'api/addr/update', // 编辑地址
-    addrInfo: 'api/addr/find', //地址详情
-    delAddr: 'api/addr/del', //删除地址
-    sendCode: 'api/open/sendCode', //发送验证码
-    retrievePay: 'api/open/retrievePay', //设置交易密码
-    owned: 'api/prod/owned', //已购产品持有
-    onceOwned: 'api/prod/onceOwned', //已购产品过期
-    transactList: 'api/transact/list', //转账记录
-    sysAddrs: 'api/sysAddrs', //获取系统地址
-    recharge: 'api/transact/recharge', //充币
-    userInfo: 'api/userInfo', //用户信息
-    inviteProfit: 'api/user/inviteProfit', // 累计邀请收益
-    hosityList: 'api/open/hosityList', //网易收益
-    giveList: 'api/open/giveList', //活动列表
-    msglist: 'api/message/list', //消息列表
-    delmsg: 'api/message/del', //删除消息
-    authentication: '/api/user/authentication', //用户认证
-    retrieve: 'api/open/retrieve', //修改登录密码
-    purchase: 'api/prod/purchase', //购买产品
-    userPhotos: 'api/userPhotos', //修改头像
-    getPoundage: 'api/transact/getPoundage', //查询提币页面信息
-    withdraw: 'api/transact/withdraw', //提币
-    billFlow: 'api/billFlow/list', //账单
+    articleType:"/hmapi/article/api_article_type/grid",
+    articel:"/hmapi/article/api_article/grid",
+    adminList:"/hmapi/member/api_admin/grid",  //管理员列表
+    feedbackGrid:"/hmapi/article/api_article_feedback/grid", //评论列表
+    memberGrid:"/hmapi/member/api_member/grid",  //用户列表
+    addressGrid:"/hmapi/member/api_address/grid", //地址列表
+    orderGrid:"/hmapi/member/api_order/grid", //订单管理
+    admin1Grid:"/hmapi/member/api_admin1/grid", //管理员列表
+    roleGrid:"/hmapi/member/api_role/grid",  //角色列表
+    roadshowGrid:"/hmapi/article/api_roadshow/grid", //广告列表
+    roadshowTypeGrid :"/hmapi/article/api_roadshow_type/grid", //广告类型
 }
 export default REQUEST;

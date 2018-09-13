@@ -1,5 +1,5 @@
 <template>
-    <Layout style="height: 100%">
+    <Layout class="layout" style="height: 100%">
             <Sider ref="side1" hide-trigger collapsible :width="256" :collapsed-width="64" v-model="isCollapsed" >
                 <div class="logo" @click="goHome">
                     <img v-if="!isCollapsed" :src="!isCollapsed ? require('../../assets/img/logo.png') : require('../../assets/img/logo1.png')" style="width: 100%;"/>
@@ -20,7 +20,7 @@
                         </Dropdown>
                     </div>
                 </Header>
-                <Content :style="{margin: '20px',marginRight:'0', background: '#fff', minHeight: '260px'}">
+                <Content style="overflow-y: scroll;" :style="{margin: '20px',marginRight:'0',padding:'20px', background: '#fff', minHeight: '260px'}">
                      <router-view/>
                 </Content>
             </Layout>

@@ -2,43 +2,13 @@
 	<div >
     <Row class="" justify="space-around" v-if="showForm">
       <Col>
-      <!-- display:inline-block; -->
-      <div style="display:inline-block;width:80%">
-          <Form label-position="right" :label-width="dataOpton.Number" v-show="searchData.length > 0 || btnGroup.length > 0" @submit.native.prevent >
-              <div class="psearchCon">
-                <div  v-for="(item,index) in searchData"  :key="'form'+index" >
-                  <FormItem :label="(item.seala ? (item.seala == '空' ? '' : item.seala) : item.title+':')" v-if="item.type == '' || item.type == 'number'" class="searchItem">
-                    <Input v-model="item.value"  :style="{width: item.seaW ? item.seaW+'px' : '190px'}" :placeholder="item.pla"> </Input>
-                  </FormItem>
-                  <FormItem :label="(item.seala ? (item.seala == '空' ? '' : item.seala) : item.title+':')" v-else-if="item.type == 'time'"  class="searchItem">
-                    <Date-picker type="daterange" v-model="item.value" :style="{width: item.seaW ? item.seaW+'px' : '190px'}" :placeholder="item.pla ||'选择日期'"  placement="bottom-end"  ></Date-picker>
-                  </FormItem>
-                    
-                  <FormItem :label="(item.seala ? (item.seala == '空' ? '' : item.seala) : item.title+':')" v-else-if="item.type == 'select'  || item.type == 'switch'" class="searchItem" >
-                      <i-select v-model="item.value" :style="{width: item.seaW ? item.seaW+'px' : '190px'}" filterable>
-                          <i-option v-for="(i,index) in item.selectOPtion" :key="'select'+index" :value="i.value">{{i.label}}</i-option>
-                      </i-select>
-                  </FormItem>
-                </div>
-                  <FormItem   class="" >
-                      <Button type="primary" style="width: 90px;" @click="searchCode"  v-if="searchData.length > 0" >搜索</Button>
-                  </FormItem>
-                   <FormItem   v-if="dataOpton.autoCol">
-                     <Button type="primary" icon="navicon-round"   style="" @click="showList">自定义隐藏列</Button>
-                    </FormItem>
-                    <FormItem   class=""  v-for="(item, index) in btnGroup"  :key="index">
-                      <i-button  :type="item.bgcolor" @click.stop="activeAction(item.type,index,item.url,item.actionName)" :icon="item.icon " :key="'btn'+index" ref="info" key=index  style="margin-right: 3px;"><a :id="item.type" style="width:0px;height:0px;"></a>{{item.title}}</i-button>
-                    </FormItem>
-              </div>
-          </Form>
-        </div>
-        <!-- <template>
-          <div class="btnGroup" style="display:inline-block;">
-            
-            <i-button v-for="(item, index) in btnGroup"   :type="item.bgcolor" @click.stop="activeAction(item.type,index,item.url,item.actionName)" :icon="item.icon " :key="index" ref="info" key=index  style="margin-right: 3px;margin-top:40px;"><a :id="item.type" style="width:0px;height:0px;"></a>{{item.title}}</i-button>
+        <template>
+          <div class="btnGroup">
+            <Button type="primary" icon="navicon-round" @click="showList">自定义隐藏列</Button>
+            <i-button v-for="(item, index) in btnGroup"  :type="item.bgcolor" @click.stop="activeAction(item.type,index,item.url,item.actionName)" :icon="item.icon " :key="index" ref="info" key=index  style="margin-right: 3px;"><a :id="item.type" style="width:0px;height:0px;"></a>{{item.title}}</i-button>
           </div>
-        </template> -->
-        
+        </template>
+      
         <Modal  v-model="list" title="自定义隐藏列" @on-ok="changeTableColumns">
           <Checkbox-group v-model="tableColumnsChecked" v-if="showForm">
             <Checkbox  v-for="(item,index) of checkboxGroup" :label="item.label" :key="index">{{item.title}}</Checkbox>
@@ -46,9 +16,9 @@
         </Modal>
         <div style="margin:15px 10px" id="tableCon">
           <Table  size="small" :height="tableHeight" :data="this.tableData2" stripe :columns="columns" @sortMethod="sortMethod" @on-sort-change="changeSort"  @on-selection-change="getSelect" ref="goodsTable" border></Table>
-          <div style="margin: 10px;overflow: hidden" v-if="!dataOpton.hiddenPage">
+          <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
-              <Page :total="parseInt(getList.count)" placement="top" :page-size-opts="getList.page_size_opts" :current="getList.page" show-elevator :pageSize="getList.pageSize" show-sizer show-total @on-page-size-change="changeSize"  @on-change="changePage"></Page>
+              <Page :total="parseInt(orderList.getList.count)" placement="top" :page-size-opts="orderList.getList.page_size_opts" :current="orderList.getList.page" show-elevator :pageSize="orderList.pageSize" show-sizer show-total @on-page-size-change="changeSize"  @on-change="changePage"></Page>
             </div>
           </div>
         </div>
@@ -79,19 +49,9 @@
               </div>
           </Form>
         </Modal>
-        
-         <Modal v-model="showImport"  title="导入" width="400px" @on-ok="doImport"  @on-cancel="cancelMOdal" >
-           <uploadFile></uploadFile>
+         <Modal v-model="showImport" title="导入" width="400px" @on-ok="doImport"  @on-cancel="cancelMOdal">
+           <!-- <uploadFile></uploadFile> -->
          </Modal>
-
-         <Modal
-            v-model="showDel"
-            @on-ok="handDel"
-            @on-cancel="cancel"
-            :styles="{top: top+'px'}"
-            >
-            <p>请确定是否删除</p>
-        </Modal>
 
         <customAdd v-if="showAddEditModal" ref="customAdd"  :params="params" @changeModal="changeModal"  @add_edit_suc="add_edit_suc"></customAdd>
       </Col>
@@ -99,13 +59,13 @@
 	</div>
 </template>
 <script>
-import ykp from "../assets/js/ykp";
+// import ykp from "../assets/js/ykp";
 import util from "../assets/js/util";
-import hm from "../assets/js/hm";
+// import util from "../assets/js/util";
+// import * as doAjax from "../api/AjaxApi";
 import customAdd from "./custom_add";
-import uploadFile from "./upload/upload";
-import table2excel from "@/assets/js/table2excel";
-import otherurl from "@/api/otherurl.js";
+// import uploadFile from "./upload/upload";
+// import table2excel from "@/assets/js/table2excel";
 import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   data() {
@@ -126,25 +86,17 @@ export default {
       checkboxGroup: [], //自定义列表存放地址
       columns: [],
       getList: {
-        //pafe参数
-        pageSize: 10,
         limit: 10,
         page: 1,
         filter: "",
         order: "",
-        count: 0,
-        page_size_opts: [10, 20, 50, 100]
+        count: 0
       },
       showForm: false,
       roleArr: [],
       showImport: false,
       showAddEditModal: false,
-      promises: [],
-      filter: {}, //普通搜索 条件
-      defaultFilter: {}, //默认搜索条件，
-      showDel: false, //显示删除modal
-      removeInfo: {},
-      top: 0
+      promises: []
     };
   },
 
@@ -176,16 +128,13 @@ export default {
   },
   components: {
     customAdd,
-    uploadFile
+    // uploadFile
   },
   computed: {
     ...mapState(["orderList"])
   },
   methods: {
     ...mapMutations([]),
-    cancel() {
-      this.showDel = false;
-    },
     showList() {
       this.list = !this.list;
     },
@@ -226,15 +175,14 @@ export default {
           actionName: topBtnGroup[i].actionName || ""
         });
       }
-      if (this.dataOpton.reload) {
-        this.btnGroup.push({
-          title: "刷新",
-          bgcolor: "success",
-          type: "reload",
-          url: this.optionData.url,
-          icon: "loop"
-        });
-      }
+
+      this.btnGroup.push({
+        title: "刷新",
+        bgcolor: "success",
+        type: "reload",
+        url: this.optionData.url,
+        icon: "loop"
+      });
     },
 
     //顶部点击事件
@@ -288,9 +236,10 @@ export default {
       this.selectArr = []; //防止重复删除
     },
     import() {
-      // console.log("导入");
+      console.log("导入");
     },
     export(url, name) {
+      console.log(name);
       // table2excel.transform(this.$refs.goodsTable, 'export', '测试');
       this.$refs.goodsTable.exportCsv({
         filename: name,
@@ -309,14 +258,14 @@ export default {
      * 页面重载
      */
     reload(url) {
-      //this.dataOpton.getList.filter
       this.getList = {
         limit: 10,
         page: 1,
-        filter: JSON.parse(JSON.stringify(this.defaultFilter)),
+        filter: this.dataOpton.getList.filter,
         order: "",
         count: 0
       };
+
       this.dataOpton.columns.forEach(item => {
         if (item.sortable) {
           item.sortable = "0";
@@ -329,9 +278,9 @@ export default {
         }
       });
 
-      // this.columns;
+      this.columns = this.dataOpton.columns;
 
-      this.getInitData(this.optionData.url, this.columns);
+      this.getInitData(this.optionData.url, this.dataOpton.columns);
     },
 
     /**导入start */
@@ -340,70 +289,56 @@ export default {
     },
     doImport() {},
 
+    cancelMOdal() {},
     /**导入end */
 
     //获取搜索条件
     searchCode() {
       let searchDateArr = {};
-      let filter = {}; //[]
+      let filter = [];
       let num = 0;
       this.searchData.forEach((item, index, key) => {
         /**
          * 分为   time  select  number 普通输入框
          */
-        // if (item.search && item.value != "") {
-        //   if (item.type == "time") {
-        //     if (item.value[0] || item.value[1]) {
-        //       filter.push(item.search + " = " + item.value);
-        //     }
-        //   } else if (item.type == "select") {
-        //     filter.push(item.search + " = " + item.value);
-        //   } else if (item.type == "number") {
-        //     if (item.range == "") {
-        //       filter.push(item.search + " like '%" + item.value + "%'");
-        //     } else {
-        //       filter.push(item.search + item.range + item.value);
-        //     }
-        //   } else {
-        //     filter.push(item.search + " like '%" + item.value + "%'");
-        //   }
-        //   num += 1;
-        // }
         if (item.search && item.value != "") {
           if (item.type == "time") {
-            filter[item.search] =
-              util.time.getTime(item.value[0], true) +
-              "," +
-              util.time.getTime(item.value[1], true);
+            if (item.value[0] || item.value[1]) {
+              filter.push(item.search + " = " + item.value);
+            }
+          } else if (item.type == "select") {
+            filter.push(item.search + " = " + item.value);
+          } else if (item.type == "number") {
+            if (item.range == "") {
+              filter.push(item.search + " like '%" + item.value + "%'");
+            } else {
+              filter.push(item.search + item.range + item.value);
+            }
           } else {
-            filter[item.search] = item.value;
+            filter.push(item.search + " like '%" + item.value + "%'");
           }
-
           num += 1;
         }
       });
+
       this.$emit("getSearch", this.searchData);
       if (num == 0) {
-        filter = {};
-        this.getList.filter = JSON.parse(JSON.stringify(this.defaultFilter));
-        this.reload();
-        // this.$Message.error("最少输入一个条件");
+        this.$Message.error("最少输入一个条件");
         return false;
       } else {
         //初始化搜索数据  value为空
-        // this.clearSearchValue();
-        let _filter = Object.assign(this.getList.filter, filter); //合并
-        this.getList.filter = _filter;
-        this.getList.page = 1;
-        // console.log( this.dataOpton)
-        this.getInitData(this.optionData.url, this.dataOpton.columns);
-        filter = {};
+        this.clearSearchValue();
       }
-      // filter =
-      //   filter.join(" and ") +
-      //   (this.dataOpton.getList.filter
-      //     ? " and " + this.dataOpton.getList.filter
-      //     : "");
+
+      filter =
+        filter.join(" and ") +
+        (this.dataOpton.getList.filter
+          ? " and " + this.dataOpton.getList.filter
+          : "");
+      this.getList.filter = filter;
+      this.getList.page = 0;
+      this.getInitData(this.optionData.url, this.dataOpton.columns);
+      filter = [];
     },
 
     cancelMOdal() {
@@ -434,7 +369,7 @@ export default {
     },
 
     sortMethod(a, b, type) {
-      // console.log(a, b, type);
+      console.log(a, b, type);
     },
 
     changeSize(pageSize) {
@@ -463,7 +398,7 @@ export default {
 
     //编辑
     edit(index, url) {
-      // console.log(this.tableData2[index]);
+      console.log(this.tableData2[index]);
       this.$router.push({
         path: url,
         query: { id: this.tableData2[index][this.dataOpton.primary] }
@@ -476,52 +411,35 @@ export default {
         path: url,
         query: { id: this.tableData2[index][this.dataOpton.primary] }
       });
-      // this.$Message.success(msg);
+      this.$Message.success(msg);
     },
 
     //删除
-    remove(index, url, otherParam) {
-      let id = this.tableData2[index][this.dataOpton.primary];
-      // this.dataOpton.primary +
-      // "=" +
-      let _otherPar = {};
-
-      if (otherParam) {
-        for (var key in otherParam) {
-          _otherPar[key] = this.tableData2[index][key];
-        }
-      }
-      otherParam ? this.delGroup(id, url, _otherPar) : this.delGroup(id, url);
+    remove(index, url) {
+      let id =
+        this.dataOpton.primary +
+        "=" +
+        this.tableData2[index][this.dataOpton.primary];
+      this.delGroup(id, url);
+      console.log(this.tableData2[index][this.dataOpton.primary]);
     },
 
     getHeight() {
-      var height = document.querySelector(".layout-content").offsetHeight;
-      if (
-        this.dataOpton.tab &&
-        this.dataOpton.reload &&
-        this.dataOpton.autoCol
-      ) {
-        this.tableHeight = height - 240;
-      } else if (
-        this.dataOpton.tab &&
-        !this.dataOpton.reload &&
-        !this.dataOpton.autoCol
-      ) {
+      var height = document.querySelector(".ivu-layout-content").offsetHeight;
+      console.log(height)
+      if (this.dataOpton.tab) {
         this.tableHeight = height - 190;
       } else {
-        this.tableHeight = height - 170;
+        this.tableHeight = height - 150;
       }
     },
 
     //批量删除  或删除单个
-    delGroup(params, url, otherParam) {
+    delGroup(params, url) {
       const delGroup = []; //删除组的id集合
-      let delDate = { id: params };
-      delDate = otherParam ? Object.assign(delDate, otherParam) : delDate; //如果出现额外的参数时，   合并参数
-      this.$ajaxPost(url, delDate).then(res => {
+      this.$ajaxPost(url, { id: params }).then(res => {
         if (res.code == 200) {
           this.$Message.success("删除成功");
-          this.$emit("delItem", res);
           this.getInitData(this.optionData.url, this.dataOpton.columns);
         } else {
           this.$Message.error("删除失败");
@@ -548,13 +466,7 @@ export default {
      * 初始化table列表
      *
      */
-    handDel() {
-      this.remove(
-        this.removeInfo.index,
-        this.removeInfo.url,
-        this.removeInfo.otherParam
-      );
-    },
+
     initTable() {
       //初始化查询条件
       this.getList = {
@@ -564,9 +476,7 @@ export default {
         order: this.dataOpton.getList.order || "",
         count: this.dataOpton.getList.count || 0
       };
-      this.defaultFilter = JSON.parse(
-        JSON.stringify(this.dataOpton.getList.filter)
-      );
+
       let cols = this.dataOpton.columns;
       this.getSearchList(cols); //遍历  搜索节点
       var renderArr = [];
@@ -596,7 +506,7 @@ export default {
                           click: () => {
                             this.$emit(
                               "info",
-                              params["row"][this.dataOpton.primary]
+                              this.tableData2[index][this.dataOpton.primary]
                             );
                             this.info(params.index, item.url);
                           }
@@ -611,12 +521,7 @@ export default {
                       "Button",
                       {
                         props: {
-                          type: item.handStatus
-                            ? hm.getHandType(
-                                params.row[item.handStatus.obj],
-                                item.handStatus.type
-                              )
-                            : "primary",
+                          type: "primary",
                           size: "small"
                         },
                         style: {
@@ -625,30 +530,31 @@ export default {
                         on: {
                           click: () => {
                             //当编辑需要在当前页面处理时，返回事件
-                            if (item.actionName && !item.handStatus) {
-                              this.$emit(item.actionName, params["row"]);
-                            } else if (item.custom) {
-                              this.add_edit(
-                                2,
-                                params["row"][this.dataOpton.primary]
-                              ); //2为添加
-                            } else if (item.handStatus) {
+                            if (item.actionName) {
                               this.$emit(
-                                item.actionName ? item.actionName : "edit",
-                                this.tableData2[params.index]
+                                item.actionName,
+                                params["row"][this.dataOpton.primary]
+                              );
+                              // return false;
+                            } else if (item.custom) {
+                              this.add_edit(2,params["row"][this.dataOpton.primary]); //2为添加
+                            } else if(item.handStatus){
+                              this.$emit(
+                                "edit",
+                                this.tableData2[index][this.dataOpton.primary]
                               );
                             } else {
                               this.edit(params.index, item.url);
                             }
+                            this.$emit(
+                              "edit",
+                              this.tableData2[index][this.dataOpton.primary]
+                            );
                           }
                         }
                       },
-                      item.handStatus
-                        ? hm.getHandTitle(
-                            params.row[item.handStatus.obj],
-                            item.handStatus.title
-                          )
-                        : item.title
+                      item.handStatus ?  util.getHandTitle(params.row[item.handStatus.obj],item.handStatus.title) : item.title
+                      // params['row']['hp_addonshop.click'] == 1 ? item.title : '失败'
                     )
                   );
                 } else if (item.type == "sp") {
@@ -678,7 +584,7 @@ export default {
                       "Button",
                       {
                         props: {
-                          type: "primary",
+                          type: "error",
                           size: "small"
                         },
                         style: {
@@ -686,50 +592,29 @@ export default {
                         },
                         on: {
                           click: () => {
-                            this.removeInfo = {
-                              index: params.index,
-                              url: item.url,
-                              otherParam: item.otherParam
-                            };
-                            if (item.msg) {
-                              this.showDel = true;
-                            } else if (item.actionName) {
-                              this.$emit(item.actionName);
-                            } else {
-                              this.showDel = true;
-                            }
+                            this.remove(params.index, item.url);
                           }
                         }
                       },
                       item.title
                     )
                   );
-                } else if (item.type == "href") {
+                } else if (item.type == "goBack") {
                   renderArr.push(
                     h(
-                      "a",
+                      "Button",
                       {
                         props: {
-                          type: "button",
+                          type: "error",
                           size: "small"
                         },
-                        attrs: {
-                          href:
-                            otherurl.infourl +
-                            "/home/advinfo?data=0," +
-                            params.row.id +
-                            ",other",
-                          target: "_blank"
-                        },
                         style: {
-                          marginRight: "5px",
-                          color: "#fff !important"
+                          marginRight: "5px"
                         },
-                        class: "ivu-btn ivu-btn-primary ivu-btn-small",
                         on: {
-                          // click: () => {
-                          //   this.goBack(params.index, item.url);
-                          // }
+                          click: () => {
+                            this.goBack(params.index, item.url);
+                          }
                         }
                       },
                       item.title
@@ -759,7 +644,8 @@ export default {
                 }
               })
             );
-            if (params.row[params.column.key]) {
+            if(params.row[params.column.key]){
+              
               renderArr.push(
                 h("img", {
                   attrs: {
@@ -770,7 +656,7 @@ export default {
                 })
               );
             }
-
+            
             return h("div", renderArr);
           };
         } else if (item.render == "select") {
@@ -814,6 +700,7 @@ export default {
                 params.row[params.column.key] = item.selectOPtion[i].label;
               }
             }
+            // console.log( params.row[params.column.key])
             renderArr.push(
               h(
                 "span",
@@ -851,26 +738,6 @@ export default {
               )
             ]);
           };
-        } else if (item.type == "splicing") {
-          //当数据为两个字段拼接起来时
-          let renderArr;
-          item.render = (h, params) => {
-            renderArr = [];
-            let field = "";
-            renderArr.push(
-              h(
-                "span",
-                {
-                  style: {
-                    width: "50px",
-                    height: "40px"
-                  }
-                },
-                params.row[params.column.key]
-              )
-            );
-            return h("div", renderArr);
-          };
         } else if (item.type == "time") {
           //当为时间时  把时间戳转化成日期时间
           item.render = (h, params) => {
@@ -884,64 +751,6 @@ export default {
               )
             ]);
           };
-        } else if (item.type == "editting") {
-          //当为时间时  把时间戳转化成日期时间
-          item.render = (h, params) => {
-            if (!params.editStatus) {
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    style: {
-                      width: "146px",
-                      display: "inline-block",
-                      overflow: "hidden",
-                      "text-overflow": "ellipsis",
-                      "padding-top": "9px"
-                    },
-                    attrs: {
-                      title: params.row[params.column.key]
-                    }
-                  },
-                  params.row[params.column.key]
-                ),
-                h("Button", {
-                  props: {
-                    type: "text",
-                    icon: "edit"
-                  },
-                  on: {
-                    click: val => {
-                      this.$emit("changeName", params);
-                    }
-                  }
-                })
-              ]);
-            } else {
-              return h("div", [
-                h("i-input", {
-                  props: {
-                    value: params.row[params.column.key]
-                  },
-                  style: {
-                    width: "150px"
-                  },
-                  on: {
-                    "on-change": val => {}
-                  }
-                }),
-                h("Button", {
-                  props: {
-                    type: "text",
-                    icon: "checkmark"
-                  },
-                  on: {
-                    click: val => {}
-                  }
-                })
-              ]);
-            }
-          };
         }
       });
 
@@ -952,12 +761,10 @@ export default {
       this.columns = this.dataOpton.columns.filter(item => {
         return !item.hidden;
       });
-      this.optionData.columns = this.columns;
-      this.getInitData(this.optionData.url, this.optionData.columns); //初始化列表数据
+      this.optionData.columns = this.dataOpton.columns;
+      this.getInitData(this.optionData.url, cols); //初始化列表数据
       this.topBtnGroup(topBtn); //获取展示顶部按钮
-      this.ptSearch(); //初始化普通搜索
     },
-    ptSearch() {},
 
     //遍历搜索list
     getSearchList(cols) {
@@ -1014,10 +821,7 @@ export default {
               title: item1.title,
               value: "",
               type: item1.type,
-              selectOPtion: item1.selectOPtion,
-              pla: item1.pla,
-              seaW: item1.seaW,
-              seala: item1.seala
+              selectOPtion: item1.selectOPtion
             };
 
             /**
@@ -1053,15 +857,14 @@ export default {
     },
 
     changeSwitch(option) {
-      // console.log(option);
+      console.log(option);
     },
 
     changeselectOPtion(val, url) {
-      // console.log(val, url);
+      console.log(val, url);
     },
 
-    //异步处理列表数据
-    /**@augments --------------- */
+    //异步处理数据
     getInitData(url, cols) {
       this.tableData2 = [];
       var select = [];
@@ -1069,15 +872,15 @@ export default {
         if (cols[i].key != "action" && cols[i].type != "selection")
           select.push(cols[i].key + " as " + cols[i].key.replace(/\./, "-"));
       }
-      let data = {
+      console.log(this.getList.filter)
+      this.$ajaxPost(this.dataOpton.url, {
         page: this.getList.page,
         limit: this.getList.limit,
-        order: this.getList.order
-        // select: select.join(",")
-      };
-      var Data = Object.assign(data, this.getList.filter, this.filter);
-      this.$ajaxPost(this.dataOpton.url, Data).then(res => {
-        let data = res.data.data;
+        filter: this.getList.filter,
+        order: this.getList.order,
+        select: select.join(",")
+      }).then(res => {
+        let data = res.data.rows;
         let goodsList = this.tableData2;
         if (data) {
           var Key = "";
@@ -1093,8 +896,8 @@ export default {
           }
         }
         this.tableData2 = data ? data : []; //当值没有数据时返回空String  需要Array
-        this.getList.count = parseInt(res.data.total);
-        this.getList.page = parseInt(res.data.current_page);
+        this.orderList.getList.count = parseInt(res.data.records);
+        this.orderList.getList.page = parseInt(res.data.page);
         if (this.tableData2.length < 10) {
           // this.tableHeight = 0;
         }
@@ -1107,10 +910,7 @@ export default {
     }
   },
   mounted() {
-    this.top = (document.querySelector(".layout").offsetHeight - 112) / 2;
-    if (!this.dataOpton.autoHeight) {
-      this.getHeight();
-    }
+    this.getHeight();
   },
   created() {
     this.initTable();
@@ -1120,17 +920,12 @@ export default {
 
 <style>
 .btnGroup {
-  /* margin: 15px 10px; */
+  margin: 15px 10px;
 }
 .searchCon {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-}
-.psearchCon {
-  display: flex;
-  flex-wrap: wrap;
-  /* justify-content: space-between; */
 }
 .searchItem {
   width: 33.3333333333333%;
@@ -1178,12 +973,5 @@ export default {
 }
 .ivu-table-small th {
   height: 40px;
-}
-.ivu-page-item-active a,
-.ivu-page-item-active:hover a {
-  color: #fff !important;
-}
-.ivu-form-item-content div {
-  margin-right: 2px;
 }
 </style>

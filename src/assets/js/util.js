@@ -658,7 +658,6 @@ let utils = {
                 return "请传入时间";
             }
             var time = new Date(time * 1000);
-            console.log(time)
             let month = (time.getMonth() + 1) < 10 ? "0" + (time.getMonth() + 1) : (time.getMonth() + 1);
             let data = time.getDate() < 10 ? "0" + (time.getDate()) : time.getDate();
             if (statu) {
@@ -1228,6 +1227,20 @@ let utils = {
 			}
 			window.onresize = fun.resize();
 		});
+    },
+    getHandType:function (data, obj) {
+		if(data == "未发布"){
+			return obj[1];
+		}else if(data == "已发布"){
+			return obj[2];
+		}else if(data == "审核中"){
+			return obj[3];
+		}else if(data == "审核失败"){
+			return obj[4];
+		}else{
+			return obj[data] || "未发布";
+		}
+		
 	},
 }
 

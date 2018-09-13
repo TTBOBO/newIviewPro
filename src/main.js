@@ -6,12 +6,12 @@ import router from './router'
 
 Vue.config.productionTip = false
 import iView from 'iview';
-// import 'iview/dist/styles/fonts/ionicons.eot'
-// import 'iview/dist/styles/fonts/ionicons.svg'
-// import 'iview/dist/styles/fonts/ionicons.ttf'
-// import 'iview/dist/styles/fonts/ionicons.woff'
 import 'iview/dist/styles/iview.css'
-/* eslint-disable no-new */
+
+import {ajaxGet,ajaxPost} from './api/axios'
+
+Vue.prototype.$ajaxGet = ajaxGet;
+Vue.prototype.$ajaxPost = ajaxPost;
 
 import store from './store/index';
 Vue.use(iView);

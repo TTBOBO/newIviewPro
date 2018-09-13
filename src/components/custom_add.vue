@@ -134,11 +134,10 @@
 </template>
 <script>
 // import addEdit from "./add_edit";
-import ykp from "../assets/js/ykp";
 import util from "../assets/js/util";
 import tagGroup from "../components/tagGroup";
 import adddelInput from "../components/adddelInput";
-import * as type from '../store/constant/type';
+// import * as type from '../store/constant/type';
 import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   data() {
@@ -763,7 +762,7 @@ export default {
       initList() {
           this.addList = this.params;
           
-          this.baseUrl = type.BASEURL +"/api/api_common1/upload_file";
+          // this.baseUrl = type.BASEURL +"/api/api_common1/upload_file";
           this.pageinit();
       }
   },

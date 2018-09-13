@@ -41,22 +41,68 @@ export default [{
                 hideInMenu: false,
                 title: '首页',
             },
-            component: () =>
-                import ('@/view/home/home')
+            component: resolve => { require(['@/view/home/home'], resolve) }
         }]
     },{
         path: '/user',
         name: 'user',
-        
+        meta: {
+            title: '用户管理',
+            //   href: 'https://lison16.github.io/iview-admin-doc/#/',
+            icon: 'ios-pulse'
+        },
         component: Main,
         children: [{
-            path: 'usermanag',
-            name: 'usermanag',
+            path: 'userlist',
+            name: 'userlist',
             meta: {
                 icon: 'md-contacts',
-                title: '用户管理'
+                title: '系统会员'
             },
-            component: parentView
+            component: resolve => { require(['@/view/member/member'], resolve) }
+        },
+        {
+            path: 'address',
+            name: 'address',
+            meta: {
+                icon: 'md-contacts',
+                title: '会员地址'
+            },
+            component: resolve => { require(['@/view/member/address'], resolve) }
+        }]
+    },{
+        path: '/articleGroup',
+        name: 'articleGroup',
+        meta: {
+            title: '文章管理',
+            //   href: 'https://lison16.github.io/iview-admin-doc/#/',
+            icon: 'ios-pulse'
+        },
+        component: Main,
+        children: [{
+            path: 'article',
+            name: 'article',
+            meta: {
+                icon: 'md-contacts',
+                title: '文章列表'
+            },
+            component: resolve => { require(['@/view/article/article'], resolve) }
+        },{
+            path: 'articleType',
+            name: 'articleType',
+            meta: {
+                icon: 'md-contacts',
+                title: '文章分类'
+            },
+            component: resolve => { require(['@/view/article/articleType'], resolve) }
+        },{
+            path: 'feedback',
+            name: 'feedback',
+            meta: {
+                icon: 'md-contacts',
+                title: '文章评论'
+            },
+            component: resolve => { require(['@/view/article/feedback'], resolve) }
         }]
     }, {
         path: '/test',
@@ -74,7 +120,7 @@ export default [{
                 icon: 'md-people',
                 title: '用户监测'
             },
-            component: parentView
+            component: resolve => { require(['@/view/home/home'], resolve) }
         },{
             path: 'accessMonitor',
             name: 'accessMonitor',
@@ -82,7 +128,21 @@ export default [{
                 icon: 'ios-podium',
                 title: '访问监测'
             },
-            component: parentView
+            component: resolve => { require(['@/view/home/home'], resolve) }
+        }]
+    }, {
+        path: '/order',
+        name: 'order',
+        component: Main,
+        children: [{
+            path: 'order',
+            name: 'order',
+            meta: {
+                title: '订单管理',
+                //   href: 'https://lison16.github.io/iview-admin-doc/#/',
+                icon: 'ios-pulse'
+            },
+            component: resolve => { require(['@/view/order/order'], resolve) }
         }]
     }, {
         path: '/test2',
@@ -94,26 +154,24 @@ export default [{
             // access: "4"
         },
         children: [{
-            path: '/jurisdiction',
-            name: 'jurisdiction',
-            meta: {
-                icon: 'md-git-branch',
-                title: '权限管理',
-                // access: "4"
-            },
-            component: () =>
-                import ('@/view/test.vue')
-        },
-        {
-            path: '/role',
+            path: 'role',
             name: 'role',
             meta: {
-                icon: 'md-list-box',
+                icon: 'md-git-branch',
                 title: '角色管理',
                 // access: "4"
             },
-            component: () =>
-                import ('@/view/test.vue')
+            component: resolve => { require(['@/view/admin/admin_role'], resolve) }
+        },
+        {
+            path: 'jurisdiction',
+            name: 'jurisdiction',
+            meta: {
+                icon: 'md-list-box',
+                title: '管理员列表',
+                // access: "4"
+            },
+            component:  resolve => { require(['@/view/admin/admin'], resolve) }
         },
         {
             path: '/pwd',
@@ -123,8 +181,27 @@ export default [{
                 title: '密码管理',
                 // access: "4"
             },
-            component: () =>
-                import ('@/view/test.vue')
+            component:  resolve => { require(['@/view/admin/admin'], resolve) }
+        },
+        {
+            path: 'roadshow',
+            name: 'roadshow',
+            meta: {
+                icon: 'ios-chatboxes',
+                title: '广告管理',
+                // access: "4"
+            },
+            component: resolve => { require(['@/view/article/roadshow'], resolve) }
+        },
+        {
+            path: 'roadshowType',
+            name: 'roadshowType',
+            meta: {
+                icon: 'ios-chatboxes',
+                title: '广告分类',
+                // access: "4"
+            },
+            component: resolve => { require(['@/view/article/roadshowType'], resolve) }
         },
         {
             path: '/message',

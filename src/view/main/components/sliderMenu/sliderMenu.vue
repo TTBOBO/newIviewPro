@@ -134,4 +134,7 @@ export default {
 .ivu-tooltip-inner {
   cursor: pointer;
 }
+.ivu-layout-sider{
+  transition: all 0s ease-in-out;
+}
 </style>
