@@ -120,7 +120,7 @@ export default [{
                 icon: 'md-people',
                 title: '用户监测'
             },
-            component: resolve => { require(['@/view/home/home'], resolve) }
+            component: resolve => { require(['@/view/statistics/userStatistics'], resolve) }
         },{
             path: 'accessMonitor',
             name: 'accessMonitor',

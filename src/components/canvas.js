@@ -9,6 +9,8 @@ class Draw {
          * text => 文字
          * value => 圆环滚动的值，百分百
          */
+        this.obj = obj;
+
         this.canvas = obj.el;
         this.ctx = this.canvas.getContext('2d');
 
@@ -19,7 +21,7 @@ class Draw {
         this.size = Math.ceil((obj.size || 80) * (this.canvas.width / 180));
         this.lineWidth = obj.lineWidth || 10;
         this.location = obj.location || {x:this.canvas.width / 2,y:this.canvas.height / 2};
-        this.text = obj.text || "在线率";
+        this.text = obj.text || "";
         this.value = obj.value || 0;
         // 这里是圆的终点减去圆的起点
         this.degree = Math.PI * 1.5 / 100;
@@ -35,7 +37,7 @@ class Draw {
         this.drawBg();  //画背景
         this.deawCirckeLay();  //画进度条
         this.drawCenterCir();  //内圈
-        this.centerlineCir();
+        this.centerlineCir(); 
         this.drawText(this.tol);
         this.textName();
         if(this.tol < this.value) {
@@ -49,7 +51,7 @@ class Draw {
 
     drawBg(){
         this.ctx.beginPath();
-        this.ctx.strokeStyle = "#2d4264";
+        this.ctx.strokeStyle = this.obj.drawBgColor;
         this.ctx.lineWidth = this.lineWidth;
         this.ctx.lineCap = "round";
         this.ctx.arc(this.location.x,this.location.y,this.size,Math.PI * this.sAngle, Math.PI *2.25,false);
@@ -61,8 +63,8 @@ class Draw {
             return;
         this.ctx.beginPath();
         var gradient = this.ctx.createLinearGradient(0,this.linearLocation().start,0,this.linearLocation().end);
-        gradient.addColorStop(0,"#0f6cd9");
-        gradient.addColorStop(1,"#05a6da");
+        gradient.addColorStop(0,this.obj.deawCirckeColor[0]);
+        gradient.addColorStop(1,this.obj.deawCirckeColor[1]);
         this.ctx.strokeStyle = gradient;
         this.ctx.lineWidth = this.lineWidth;
         this.ctx.lineeCap = "round";
@@ -73,8 +75,8 @@ class Draw {
     drawCenterCir(){
         this.ctx.beginPath();
         var gradient = this.ctx.createLinearGradient(0,this.linearLocation().start,0,this.linearLocation().end);
-        gradient.addColorStop(0,"#39a8ce");
-        gradient.addColorStop(1,"#5647c9");
+        gradient.addColorStop(0,this.obj.drawCenterColor[0]);
+        gradient.addColorStop(1,this.obj.drawCenterColor[0]);
         this.ctx.fillStyle = gradient;
         this.ctx.arc(this.location.x,this.location.y,this.size - 15,0,Math.PI*2,false);
         this.ctx.fill();
@@ -93,7 +95,7 @@ class Draw {
         this.ctx.beginPath();
         this.ctx.font = `${this.size / 3}px Arial`;
         this.ctx.textAlign = "center";
-        this.ctx.fillStyle = "#192f47";
+        this.ctx.fillStyle = this.obj.numberColor || "#fff";
         this.ctx.fillText(`${parseInt(percent)}%`,this.location.x,this.location.y);
         this.ctx.stroke();
     }

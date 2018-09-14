@@ -18,20 +18,22 @@ class DrawParticle{
         this.zoom = this.getZoom();
 
         this.initSCreen();  //初始化画布大小
+
+        this.destory = false;
     }
 
     initSCreen(){
         // console.log(this.obj)
-        let num = this.obj.number || 300;
+        let num = this.obj.cirCount || 1000;
         for(var i = 0; i < num; i++){
             this.ponitArr.push(this.creatPoint())
         }
 
         // 开始绘制线条点
-        this.ctx.fillStyle = "#fff";
+        this.ctx.fillStyle = "rgba(66,172,125,1)";
         this.ctx.strokeStyle = "#fff";
         this.ctx.lineWidth = 1 * this.zoom;
-        this.ctx.fillRect(0,0,this.width,this.height);
+        // this.ctx.fillRect(0,0,this.width,this.height);
         this.drawCanvas(this.ctx);
         //修改鼠标
         this.canvas.addEventListener('mousemove',(e) => {
@@ -42,14 +44,19 @@ class DrawParticle{
     }
 
     drawCanvas(ctx){
+        if(this.destory){
+            return false;
+        }
         ctx.clearRect(0,0,this.width,this.height);
+        // ctx.fillRect(0,0,this.width,this.height);
         this.ponitArr.forEach((item,index) => {
             ctx.beginPath();
+            //移动圆点
             item.x += item.xsKew;
             item.y += item.ysKew;
              //处理边缘碰撞
              if (item.x <= item.r || item.x >= this.width - item.r) {
-                this.xsKew = -item.xsKew;
+                item.xsKew = -item.xsKew;
                 item.x = item.x + item.xsKew;
             }
             if (item.y <= item.r || item.y >= this.height - item.r) {
@@ -63,16 +70,18 @@ class DrawParticle{
             ctx.fill();
 
             
-            this.ponitArr.forEach( (_item,_index) => {
-                if(index != _index){
-                    this.drawLine(ctx, _item.x, _item.y, item.x, item.y);
+            if(this.obj.drawLine){
+                this.ponitArr.forEach( (_item,_index) => {
+                    if(index != _index){
+                        this.drawLine(ctx, _item.x, _item.y, item.x, item.y);
+                    }
+                })
+    
+                if (this.mouseX > 0 && this.mouseY > 0) {
+                    this.drawLine(ctx, this.mouseX, this.mouseY, item.x, item.y);
                 }
-                // this.drawLine(ctx, item.x, item.y, _item.x, _item.y);
-            })
-
-            if (this.mouseX > 0 && this.mouseY > 0) {
-                this.drawLine(ctx, this.mouseX, this.mouseY, item.x, item.y);
             }
+            
 
         })
 
@@ -91,8 +100,8 @@ class DrawParticle{
         var g=Math.floor(Math.random()*256);
         var b=Math.floor(Math.random()*256);
         
-        if (distance <= 120) {
-            ctx.fillStyle = "rgb("+r+','+g+','+b+")";//解决窗口缩放时圆点变黑
+        if (distance <= this.obj.drawLineWid) {
+            ctx.fillStyle = this.obj.cirAutoColor || "rgb("+r+','+g+','+b+")";//解决窗口缩放时圆点变黑
             ctx.strokeStyle = 'rgba(255,255,255,' + (1 - distance / 120) + ')';
             ctx.save();
             ctx.beginPath();
@@ -104,8 +113,8 @@ class DrawParticle{
     }
 
     creatPoint(){
-        let xsKew = (Math.random() - 0.7) * this.zoom*2;  //偏移量
-        let ysKew = (Math.random() - 0.7) * this.zoom*2;
+        let xsKew = (Math.random() - 0.7) * this.zoom*this.obj.moveW;  //偏移量
+        let ysKew = (Math.random() - 0.7) * this.zoom*this.obj.moveW;
 
         let r = ~~(Math.random() * 5 * this.zoom);
         let x = ~~(Math.random() * (this.width - r)) + 2 * r;  //x轴位置
@@ -117,6 +126,12 @@ class DrawParticle{
 
     getZoom(){
         return window.innerWidth / window.screen.width;
+    }
+    setDestory(){
+        this.destory = true;
+    }
+    changeOption(obj){
+        this.obj  = Object.assign(this.obj,obj);
     }
 }
 

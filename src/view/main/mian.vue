@@ -21,7 +21,7 @@
                         </Dropdown>
                     </div>
                 </Header>
-                <Content style="overflow-y: scroll;" :style="{margin: '20px',marginRight:'0',padding:'20px', background: '#fff', minHeight: '260px'}">
+                <Content style="overflow-y: scroll;position: relative;" :style="{margin: '20px',marginRight:'0',padding:'20px', background: '#fff', minHeight: '260px'}">
 
                 <!-- <Content :style="{margin: '20px',marginRight:'0', background: '#fff', minHeight: '260px'}" style="overflow-y:scroll"> -->
                      <router-view/>

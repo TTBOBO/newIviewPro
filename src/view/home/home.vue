@@ -55,7 +55,7 @@ export default {
                 size:"60",
                 speed:1,
                 color:"#05a6da",
-                text:"bobo"
+                text:"在线量"
             }
         }
     },

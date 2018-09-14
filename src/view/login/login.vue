@@ -27,13 +27,15 @@
 		</div>
 		<div class="bg" >
 				<img src="https://raw.githubusercontent.com/TTT822520/hm-iview-admin/master/src/assets/img/bg.jpg"  style="height: 100%; width:100%"/>
+				<particle style="position: absolute;top:0;" bgcolor="none"></particle>
 		</div>
 	</div>
 </template>
 
 <script>
     import util from '../../assets//js/util'
-	import { mapState, mapGetters, mapMutations, mapActions} from 'vuex'
+	import { mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+	import particle from '../../components/particle.vue'
 	export default {
 		data() {
 			return {
@@ -131,6 +133,9 @@
 				}
 			}
 		},
+		components:{
+			particle
+		},
 		mounted() {
 			this.showList();
 			// this.getStates();
@@ -156,14 +161,17 @@
 		overflow: hidden;
 	}
 	.main {
-		position: absolute;
-		top: 0px;
-		bottom: 0px;
-		width: 100%;
-		/*background: #fafafa;*/
+		    top: 50%;
+		left: 50%;
+		-webkit-transform: translate(-50%);
+		transform: translateY(-50%);
+		margin: auto;
 		color: #000;
 		position: fixed;
+		-ms-flex-line-pack: center;
 		align-content: center;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
 		justify-content: center;
 		z-index: 2;
 	}
@@ -174,7 +182,7 @@
 		width: 100%;
 		/*background: url(../../assets/img/bg.jpg) no-repeat;*/
 		height: 100%;
-		filter: blur(2px);
+		/* filter: blur(2px); */
 		z-index: 1;
 	}
 	.content {
